@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const MONGODB_URI = process.env.MONGODB_URI as string;
 
 if (!MONGODB_URI) {
-    throw new Error('MONGODB_URI not found');
+    throw new Error('MONGODB_URI is not defined in environment variables');
 }
 const globalWithMongoose = global as typeof globalThis & {
     mongoose: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null };
