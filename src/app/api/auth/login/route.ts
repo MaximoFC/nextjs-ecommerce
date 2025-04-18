@@ -19,8 +19,22 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({error: 'Invalid password'}, {status: 401});
         }
 
-        const token = generateToken({ id: user._id, role: user.role});
-        return NextResponse.json({message: 'Login successful', token});
+        const token: string = generateToken({ id: user._id, role: user.role});
+
+        const response = NextResponse.json({
+            message: 'Login successful', 
+            user: user.email
+        });
+
+        response.cookies.set('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            path: '/',
+            maxAge: 60 * 60 * 24 * 7
+        });
+
+        return response;
     } catch (error) {
         return NextResponse.json({message: 'Error logging in', details: (error as Error).message}, {status:500});
     }
