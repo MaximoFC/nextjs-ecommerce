@@ -49,6 +49,14 @@ export default function Navbar() {
                         >
                             Basket
                         </a>
+                        <button
+                            onClick={async () => {
+                                await fetch('/api/auth/logout', { method: 'POST' });
+                                window.location.href = '/';
+                            }}
+                        >
+                            Logout
+                        </button>
                     </div>
                 </div>
                 <div className="hidden md:flex gap-8">

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { bebasneue } from "@/lib/fonts";
 import { useState } from "react";
 import ProductCard from "@/components/ProductCard";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -98,6 +99,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      <Footer />
     </main>
   );
 }

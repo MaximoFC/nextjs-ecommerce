@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({error: 'Invalid password'}, {status: 401});
         }
 
-        const token: string = generateToken({ id: user._id, role: user.role});
+        const token = await generateToken({ id: user._id.toString(), role: user.role });
 
         const response = NextResponse.json({
             message: 'Login successful', 

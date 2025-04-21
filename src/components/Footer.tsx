@@ -59,9 +59,9 @@ export default function Footer() {
                         className="flex gap-4"
                     >
                         <input 
-                            name="email"
-                            type="email"
-                            id="email"
+                            name="emailSub"
+                            type="emailSub"
+                            id="emailSub"
                             // value={email}
                             // onChange={(e) => setEmail(e.target.value)}
                             required
