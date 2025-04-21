@@ -60,9 +60,9 @@ export default function Home() {
         className="h-[calc(100dvh-72px)] w-full flex items-center justify-center bg-gradient-to-l from-zinc-200 to-zinc-900"
       >
         <div className="absolute left-10 top-1/2 -translate-y-1/2 z-10 w-[30%]">
-          <h2 className={`${bebasneue.className} text-8xl text-white`}>ESTILO</h2>
-          <h2 className={`${bebasneue.className} text-8xl text-green-700`}>SIN LÍMITES</h2>
-          <p className="text-2xl text-white">Versatilidad y estilo en una sola colección de zapas, para donde quieras que vayas.</p>
+          <h2 className={`${bebasneue.className} text-6xl md:text-8xl text-white`}>ESTILO</h2>
+          <h2 className={`${bebasneue.className} text-6xl md:text-8xl text-green-700`}>SIN LÍMITES</h2>
+          <p className="text-2xl text-white hidden md:flex">Versatilidad y estilo en una sola colección de zapas, para donde quieras que vayas.</p>
         </div>
         <div
           style={{
@@ -87,7 +87,7 @@ export default function Home() {
       >
         <h2 className="text-white text-3xl font-semibold py-6">Productos destacados</h2>
         <p className="text-white text-xl">Las zapatillas más populares de nuestra colección</p>
-        <div className="w-full pt-8 gap-8 grid grid-cols-1 md:grid-cols-3">
+        <div className="w-full pt-8 gap-8 grid grid-cols-1 md:grid-cols-3 justify-items-center">
           {featuredProducts.map((product, index) => (
             <ProductCard 
               key={index}

@@ -39,8 +39,8 @@ export default function LoginForm({switchToRegister}: LoginFormProps) {
                 className="p-10 rounded-xl flex flex-col gap-4 items-center"
                 onSubmit={handleSubmit}
             >
-                <h2 className="text-4xl font-semibold text-white">Iniciar Sesión</h2>
-                <p className="text-white text-lg text-center">Ingresa tus datos para acceder a tu cuenta</p>
+                <h2 className="text-2xl md:text-4xl font-semibold text-white text-center">Iniciar Sesión</h2>
+                <p className="text-white text-md md:text-lg text-center">Ingresa tus datos para acceder a tu cuenta</p>
                 {error && <div>{error}</div>}
                 <div className="w-full flex flex-col gap-4">
                     <label 
@@ -67,7 +67,7 @@ export default function LoginForm({switchToRegister}: LoginFormProps) {
                     </label>
                     <a 
                         href=""
-                        className="font-semibold text-green-700 hover:underline"
+                        className="font-semibold text-green-700 hover:underline hidden md:flex"
                     >
                         ¿Olvidaste tu contraseña?
                     </a>
@@ -82,6 +82,12 @@ export default function LoginForm({switchToRegister}: LoginFormProps) {
                     placeholder="Contraseña"
                     className="bg-zinc-700 p-2 rounded-xl w-full border-1 border-white text-white"
                 />
+                <a 
+                    href=""
+                    className="font-semibold text-green-700 hover:underline flex md:hidden"
+                >
+                    Recuperar contraseña
+                </a>
                 <button
                     type="submit"
                     className="cursor-pointer bg-green-700 p-2 rounded-xl w-full text-white font-semibold hover:bg-green-900"
@@ -89,7 +95,7 @@ export default function LoginForm({switchToRegister}: LoginFormProps) {
                     Iniciar Sesión
                 </button>
                 <div className="flex justify-center w-full">
-                    <p className="text-white pr-4">¿No tienes una cuenta?</p>
+                    <p className="text-white pr-4 hidden md:flex">¿No tienes una cuenta?</p>
                     <button 
                         onClick={switchToRegister}
                         className="text-green-700 font-semibold hover:underline cursor-pointer"

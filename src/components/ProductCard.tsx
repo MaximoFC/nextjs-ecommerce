@@ -9,7 +9,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ title, price, image }: ProductCardProps) {
     return (
-        <div className="flex flex-col rounded w-100 bg-zinc-800 rounded-lg overflow-hidden">
+        <div className="flex flex-col rounded w-[80%] bg-zinc-800 rounded-lg overflow-hidden">
             <Image 
                 src={image}
                 alt={title}

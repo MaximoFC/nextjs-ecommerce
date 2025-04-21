@@ -6,7 +6,7 @@ import { bebasneue } from "@/lib/fonts";
 export default function Footer() {
     return (
         <footer className="bg-black text-white p-10 w-full flex flex-col gap-10 items-center">
-            <div className="flex justify-around gap-20">
+            <div className="flex flex-col md:flex-row gap-20">
                 <div className="flex flex-col gap-4">
                     <div className="gap-4">
                         <h2 className={`${bebasneue.className} text-4xl`}>URBAN<span className="text-green-700">KICKS</span></h2>
@@ -78,7 +78,7 @@ export default function Footer() {
                 </div>
             </div>
             <div 
-                className="h-1 w-[90%] bg-white"
+                className="h-1 w-[90%] bg-white rounded"
             />
             <p>@ 2025 URBANKICKS. Todos los derechos reservados.</p>
         </footer>
