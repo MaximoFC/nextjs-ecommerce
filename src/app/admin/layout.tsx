@@ -5,15 +5,23 @@ import { MdDashboard } from "react-icons/md";
 import { BsCardChecklist, BsBox2, BsBarChartLineFill } from "react-icons/bs";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
+    const pathname = usePathname();
 
     const handleLogout = async () => {
         await fetch('/api/auth/logout');
         router.push('/');
     }
+
+    const navItems = [
+        { href: "/admin", label: "Dashboard", icon: <MdDashboard className="h-5 w-5" /> },
+        { href: "/admin/orders", label: "Órdenes", icon: <BsCardChecklist className="h-5 w-5" /> },
+        { href: "/admin/products", label: "Productos", icon: <BsBox2 className="h-5 w-5" /> },
+        { href: "/admin/stats", label: "Estadísticas", icon: <BsBarChartLineFill className="h-5 w-5" /> }
+    ]
     
     return (
         <section className="flex w-full">
@@ -27,22 +35,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     <p className={`${bebasneue.className} text-md`}>admin</p>
                 </div>
                 <div className="flex flex-col gap-4 w-full">
-                    <Link href="/admin" className="gap-4 mt-2 cursor-pointer p-2 rounded w-full text-white font-semibold hover:bg-zinc-800 flex justify-center items-center">
-                        <MdDashboard className="h-5 w-5" />
-                        Dashboard
-                    </Link>
-                    <Link href="/admin/orders" className="gap-4 cursor-pointer p-2 rounded w-full text-white font-semibold hover:bg-zinc-800 flex justify-center items-center">
-                        <BsCardChecklist className="h-5 w-5" />
-                        Órdenes
-                    </Link>
-                    <Link href="/admin/products" className="gap-4 cursor-pointer p-2 rounded w-full text-white font-semibold hover:bg-zinc-800 flex justify-center items-center">
-                        <BsBox2 className="h-5 w-5" />
-                        Productos
-                    </Link>
-                    <Link href="/admin/stats" className="gap-4 cursor-pointer p-2 rounded w-full text-white font-semibold hover:bg-zinc-800 flex justify-center items-center">
-                        <BsBarChartLineFill className="h-5 w-5" />
-                        Estadísticas
-                    </Link>
+                    {navItems.map((({ href, label, icon }) => (
+                        <Link
+                            key={href}
+                            href={href}
+                            className={`gap-4 cursor-pointer p-2 rounded w-full font-semibold flex justify-center hover:bg-zinc-800 ${
+                                pathname === href ? "text-green-700" : "text-white"
+                            }`}
+                        >
+                            {icon}
+                            {label}
+                        </Link>
+                    )))}
                 </div>
                 <div className="border-t-1 border-white w-full flex justify-center my-4 p-4">
                     <button
