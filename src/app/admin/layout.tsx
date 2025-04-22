@@ -17,7 +17,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     
     return (
         <section className="flex w-full">
-            <nav className="h-dvh w-[20%] bg-black text-white flex flex-col items-center p-4 justify-between sticky left-0">
+            <nav className="h-dvh w-[20%] bg-black text-white flex flex-col items-center p-4 justify-between sticky left-0 top-0">
                 <div className="flex items-end border-b-1 border-white w-full justify-center">
                     <h2
                         className={`${bebasneue.className} text-4xl`}
