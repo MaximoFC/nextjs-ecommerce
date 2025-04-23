@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { MdOutlineArrowForwardIos, MdOutlineArrowBackIos } from "react-icons/md";
 
 export default function ProductsPage() {
     const allProducts = [
@@ -392,7 +393,7 @@ export default function ProductsPage() {
                                 <td className="p-4">{product.category}</td>
                                 <td className="p-4">{product.price}</td>
                                 <td className="p-4">
-                                    <div className="flex flex-col gap-1">
+                                    <div className="flex flex-col gap-1 items-center">
                                         {product.sizes.map((s, index) => (
                                             <span key={index}>{s.size} ({s.stock})</span>
                                         ))}
@@ -416,15 +417,16 @@ export default function ProductsPage() {
                     <button
                         onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                         disabled={currentPage === 1}
-                        className=""
+                        className="cursor-pointer bg-green-700 p-4 rounded-lg text-white font-semibold hover:bg-green-900 disabled:bg-zinc-900 disabled:cursor-default"
                     >
-                        Anterior
+                        <MdOutlineArrowBackIos />
                     </button>
                     <button
                         onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                         disabled={currentPage === totalPages}
+                        className="cursor-pointer bg-green-700 p-4 rounded-lg text-white font-semibold hover:bg-green-900 disabled:bg-zinc-900 disabled:cursor-default"
                     >
-                        Siguiente
+                        <MdOutlineArrowForwardIos />
                     </button>
                 </div>
             )}
