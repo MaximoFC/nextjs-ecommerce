@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
         const hashed = await hashPassword(password);
         const newUser = await User.create({ name, email, password: hashed });
 
-        const token = generateToken({id: newUser._id, role: newUser.role});
+        const token = await generateToken({id: newUser._id, role: newUser.role});
 
         const response = NextResponse.json({
             message: 'User registered and logged in',
