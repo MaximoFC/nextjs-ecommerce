@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { MdOutlineArrowForwardIos, MdOutlineArrowBackIos } from "react-icons/md";
+import Link from "next/link";
 
 export default function ProductsPage() {
     const allProducts = [
@@ -354,11 +355,15 @@ export default function ProductsPage() {
                     </select>
                 </div>
                 <div className="flex items-center gap-2">
-                    <button
-                        className="cursor-pointer bg-green-700 p-2 rounded-lg w-full text-white font-semibold hover:bg-green-900"
+                    <Link
+                        href="/admin/products/new"
                     >
-                        + Nuevo producto
-                    </button>
+                        <button
+                            className="cursor-pointer bg-green-700 p-2 rounded-lg w-full text-white font-semibold hover:bg-green-900"
+                        >
+                            + Nuevo producto
+                        </button>
+                    </Link>
                 </div>
             </div>
             <div className="rounded-md border border-zinc-700 overflow-hidden">

@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
             sameSite: 'strict',
             path: '/',
             maxAge: 60 * 60 * 24 * 7
-        })
+        });
 
         return response;
     } catch (error) {
