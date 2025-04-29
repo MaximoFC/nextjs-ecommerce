@@ -3,6 +3,8 @@
 import { productFormSchema, ProductFormSchema } from '../schemas/product-form-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useFieldArray } from 'react-hook-form';
+import { HashLoader } from "react-spinners";
+import { useState } from 'react';
 
 type ProductFormProps = {
     initialData?: ProductFormSchema;
@@ -10,6 +12,40 @@ type ProductFormProps = {
 }
 
 export const ProductForm = ({ initialData, onSubmit }: ProductFormProps) => {
+    const [uploading, setUploading] = useState(false);
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            setUploading(true);
+
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.url) {
+                appendImage({ url: data.url, alt: file.name });
+            } else {
+                alert('Error al subir imagen');
+                console.error(data.error);
+            }
+        } catch (error) {
+            console.error('Upload error: ', error);
+            alert('Error al subir imagen');
+        } finally {
+            setUploading(false);
+            e.target.value = '';
+        }
+    }
+
     const form = useForm<ProductFormSchema>({
         resolver: zodResolver(productFormSchema),
         defaultValues: initialData || {
@@ -22,7 +58,7 @@ export const ProductForm = ({ initialData, onSubmit }: ProductFormProps) => {
             isFeatured: false,
             isActive: true,
             sizes: [{ size: 0, stock: 0 }],
-            images: [{ url: '', alt: '' }]
+            images: []
         }
     });
 
@@ -140,7 +176,7 @@ export const ProductForm = ({ initialData, onSubmit }: ProductFormProps) => {
             </div>
 
             <div>
-                <label htmlFor="">Talles:</label>
+                <label>Talles:</label>
                 {sizeFields.map((field, index) => (
                     <div 
                         key={field.id}
@@ -175,12 +211,25 @@ export const ProductForm = ({ initialData, onSubmit }: ProductFormProps) => {
                 {errors.sizes && <p className='text-red-500'>Campo requerido</p>}
             </div>
 
-            <div>
-                <label className="font-semibold">Imágenes:</label>
+            <div className='flex flex-col items-start gap-4'>
+                <label>Imágenes:</label>
+                <input 
+                    type='file'
+                    accept='image/*'
+                    onChange={handleImageUpload}
+                    className='cursor-pointer bg-green-700 p-2 rounded-xl text-white font-semibold hover:bg-green-900'
+                />
+                {uploading && (
+                    <div>
+                        <HashLoader size={80} color="#008236" />
+                        <p>Subiendo imagen</p>
+                    </div>
+                )}
+
                 {imageFields.map((field, index) => (
                     <div 
-                        key={field.id} 
-                        className="w-full flex justify-start gap-5 my-4"
+                    key={field.id} 
+                    className="w-full flex justify-start gap-5 my-4"
                     >
                         <input
                             placeholder="URL"
@@ -201,13 +250,15 @@ export const ProductForm = ({ initialData, onSubmit }: ProductFormProps) => {
                         </button>
                     </div>
                 ))}
+
                 <button 
                     type="button" 
                     onClick={() => appendImage({ url: '', alt: '' })}
                     className='cursor-pointer bg-green-700 p-2 rounded-xl text-white font-semibold hover:bg-green-900'
                 >
-                    + Agregar imagen
+                    + Agregar imagen manualmente
                 </button>
+
                 {errors.images && <p className='text-red-500'>Campo requerido</p>}
             </div>
 
