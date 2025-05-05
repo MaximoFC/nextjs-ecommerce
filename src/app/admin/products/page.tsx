@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { MdOutlineArrowForwardIos, MdOutlineArrowBackIos } from "react-icons/md";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import Link from "next/link";
 import axios from "axios";
 import { HashLoader } from "react-spinners";
@@ -37,6 +38,7 @@ export default function ProductsPage() {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
+    const [openMenuId, setOpenMenuId] = useState<string | null>(null);
     const itemsPerPage = 10;
 
     useEffect(() => {
@@ -65,6 +67,20 @@ export default function ProductsPage() {
         (currentPage - 1 ) * itemsPerPage,
         currentPage * itemsPerPage
     );
+
+    const handleDelete = async (id: string) => {
+        const confirmDelete = window.confirm("¿Estás seguro de eliminar este producto?");
+        if(!confirmDelete) return;
+
+        try {
+            await axios.delete(`/api/products/${id}`);
+            setProducts((prev) => prev.filter((p) => p._id !== id));
+        } catch (error) {
+            console.error('Error deleting product: ', error);
+        } finally {
+            setOpenMenuId(null);
+        }
+    }
 
     return (
         <div className="space-y-4">
@@ -118,19 +134,20 @@ export default function ProductsPage() {
                 </div>
             ) : (
                 <>
-                    <div className="rounded-md border border-zinc-700 overflow-hidden">
+                    <div className="rounded-md border border-zinc-700 overflow-visible">
                         <table className="w-full table-auto">
                             <thead className="bg-zinc-700 text-left">
                                 <tr>
-                                    <th className="p-4">Imagen</th>
-                                    <th className="p-4">Marca</th>
-                                    <th className="p-4">Producto</th>
-                                    <th className="p-4">Categoría</th>
-                                    <th className="p-4">Precio</th>
-                                    <th className="p-4">Talles / Stock</th>
-                                    <th className="p-4">Activo</th>
-                                    <th className="p-4">Descuento</th>
-                                    <th className="p-4">Destacado</th>
+                                    <th className="p-4 text-center">Imagen</th>
+                                    <th className="p-4 text-center">Marca</th>
+                                    <th className="p-4 text-center">Producto</th>
+                                    <th className="p-4 text-center">Categoría</th>
+                                    <th className="p-4 text-center">Precio</th>
+                                    <th className="p-4 text-center">Talles / Stock</th>
+                                    <th className="p-4 text-center">Activo</th>
+                                    <th className="p-4 text-center">Descuento</th>
+                                    <th className="p-4 text-center">Destacado</th>
+                                    <th className="p-4 text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -145,20 +162,46 @@ export default function ProductsPage() {
                                                 className="rounded"
                                             />
                                             </td>
-                                            <td className="p-4">{product.brand}</td>
-                                            <td className="p-4">{product.title}</td>
-                                            <td className="p-4">{product.category}</td>
-                                            <td className="p-4">${product.price}</td>
-                                            <td className="p-4">
-                                            <div className="flex flex-col gap-1 items-center">
+                                            <td className="p-4 text-center">{product.brand}</td>
+                                            <td className="p-4 text-center">{product.title}</td>
+                                            <td className="p-4 text-center">{product.category}</td>
+                                            <td className="p-4 text-center">${product.price}</td>
+                                            <td className="p-4 text-center">
+                                            <div className="flex flex-col gap-1 items-center text-center">
                                                 {product.sizes.map((s, index) => (
                                                     <span key={index}>{s.size} ({s.stock})</span>
                                                 ))}
                                             </div>
                                         </td>
-                                        <td className="p-4">{product.isActive ? 'Sí' : 'No'}</td>
-                                        <td className="p-4">{product.discount}%</td>
-                                        <td className="p-4">{product.isFeatured ? 'Sí' : 'No'}</td>
+                                        <td className="p-4 text-center">{product.isActive ? 'Sí' : 'No'}</td>
+                                        <td className="p-4 text-center">{product.discount}%</td>
+                                        <td className="p-4 text-center">{product.isFeatured ? 'Sí' : 'No'}</td>
+                                        <td className="p-4 relative text-center">
+                                            <div>
+                                                <button
+                                                    onClick={() => setOpenMenuId(openMenuId === product._id ? null : product._id)}
+                                                    className="text-white hover:text-green-500 cursor-pointer"
+                                                >
+                                                    <BsThreeDotsVertical size={20} />
+                                                </button>
+                                                {openMenuId === product._id && (
+                                                    <div className="absolute right-0 mt-2 w-32 bg-zinc-800 border border-zinc-700 rounded-lg shadow-md z-10">
+                                                        <Link
+                                                            href={`/admin/products/${product._id}/edit`}
+                                                            className="block rounded-lg px-4 text-left py-2 text-sm hover:bg-zinc-700"
+                                                        >
+                                                            Editar
+                                                        </Link>
+                                                        <button
+                                                            onClick={() => handleDelete(product._id)}
+                                                            className="block rounded-lg w-full text-left px-4 py-2 text-sm hover:bg-red-700 cursor-pointer"
+                                                        >
+                                                            Eliminar
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

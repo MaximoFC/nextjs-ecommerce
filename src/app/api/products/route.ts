@@ -7,8 +7,9 @@ export async function GET() {
         await connectDB();
         const products = await Product.find();
         return NextResponse.json(products);
-    } catch {
-        return NextResponse.json({error: 'Error fetching products'}, {status: 500});
+    } catch (error) {
+        console.error('Error in GET /api/products:', error);
+        return NextResponse.json({ error: 'Error fetching products' }, { status: 500 });
     }
 }
 
