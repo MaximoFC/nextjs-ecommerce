@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { HashLoader } from "react-spinners";
 import { useState } from 'react';
+import Image from 'next/image';
 
 type ProductFormProps = {
     initialData?: ProductFormSchema;
@@ -228,23 +229,33 @@ export const ProductForm = ({ initialData, onSubmit }: ProductFormProps) => {
 
                 {imageFields.map((field, index) => (
                     <div 
-                    key={field.id} 
-                    className="w-full flex justify-start gap-5 my-4"
+                        key={field.id} 
+                        className="w-full flex justify-start gap-5 my-4 items-end"
                     >
+                        {form.watch(`images.${index}.url`) && (
+                            <div className='relative w-40 h-30'>
+                                <Image 
+                                    src={field.url}
+                                    alt={field.alt ?? 'Imagen de previsualización'}
+                                    fill
+                                    className='rounded-xl object-cover'
+                                />
+                            </div>
+                        )}
                         <input
                             placeholder="URL"
                             {...register(`images.${index}.url` as const)}
-                            className='bg-zinc-700 p-2 rounded-xl border-1 border-white text-white w-[40%]'
+                            className='bg-zinc-700 p-2 rounded-xl border-1 border-white text-white w-[40%] h-12'
                         />
                         <input
                             placeholder="Texto alternativo"
                             {...register(`images.${index}.alt` as const)}
-                            className='bg-zinc-700 p-2 rounded-xl border-1 border-white text-white w-[40%]'
+                            className='bg-zinc-700 p-2 rounded-xl border-1 border-white text-white w-[40%] h-12'
                         />
                         <button 
                             type="button" 
                             onClick={() => removeImage(index)}
-                            className='cursor-pointer bg-green-700 p-2 rounded-xl text-white font-semibold hover:bg-green-900 w-[20%]'
+                            className='cursor-pointer bg-green-700 p-2 rounded-xl text-white font-semibold hover:bg-green-900 w-[20%] h-12'
                         >
                             Eliminar
                         </button>

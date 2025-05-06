@@ -84,7 +84,7 @@ export default function ProductsPage() {
 
     return (
         <div className="space-y-4">
-            <div>
+            <div className="space-y-4">
                 <h2 className="font-bold text-4xl">Gestión de productos</h2>
                 <p className="text-2xl">Gestiona tu inventario de productos</p>
             </div>
