@@ -29,7 +29,7 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
     } catch (error) {
         console.error('Error verifying token: ', error)
-        NextResponse.redirect(new URL('/', req.url));
+        return NextResponse.redirect(new URL('/', req.url));
     }
 }
 

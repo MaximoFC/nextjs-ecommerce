@@ -6,11 +6,13 @@ import { useState } from "react";
 import Modal from "@/components/Modal";
 import LoginForm from "@/components/LoginForm";
 import RegisterForm from "./RegisterForm";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function Navbar() {
     const [formType, setFormType] = useState<'login' | 'register'>('login');
     const [showForm, setShowForm] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { user, loading } = useCurrentUser();
 
     const openLogin = () => {
         setShowForm(true);
@@ -49,29 +51,58 @@ export default function Navbar() {
                         >
                             Basket
                         </a>
-                        <button
-                            onClick={async () => {
-                                await fetch('/api/auth/logout', { method: 'POST' });
-                                window.location.href = '/';
-                            }}
-                        >
-                            Logout
-                        </button>
                     </div>
                 </div>
                 <div className="hidden md:flex gap-8">
-                    <button className="cursor-pointer hover:text-green-700">
-                        <BsSearch className="w-6 h-6" />
-                    </button>
-                    <button 
-                        className="cursor-pointer hover:text-green-700"
-                        onClick={openLogin}
-                    >
-                        <BsPerson className="w-7 h-7" />
-                    </button>
-                    <button className="cursor-pointer hover:text-green-700">
-                        <BsCart className="w-6 h-6" />
-                    </button>
+                {!loading && (
+                    user ? (
+                        <div className="relative">
+                            <button
+                                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                className="cursor-pointer bg-green-700 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-green-900"
+                            >
+                                {user.email[0].toUpperCase()}
+                            </button>
+                            {isMenuOpen && (
+                                <div className="absolute right-0 mt-2 w-48 bg-zinc-800 text-white rounded-lg shadow-md border border-zinc-700 z-50">
+                                    {user.role === 'admin' && (
+                                        <a
+                                            href="/admin"
+                                            className="block px-4 py-2 hover:bg-zinc-700 rounded-lg"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            Panel Admin
+                                        </a>
+                                    )}
+                                    <a
+                                        href="/profile"
+                                        className="block px-4 py-2 hover:bg-zinc-700 rounded-lg"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        Perfil
+                                    </a>
+                                    <button
+                                        onClick={async () => {
+                                            await fetch('/api/auth/logout', { method: 'POST' });
+                                            window.location.href = '/';
+                                        }}
+                                        className="block px-4 py-2 hover:bg-red-700 rounded-lg w-full text-left cursor-pointer"
+                                    >
+                                        Cerrar sesión
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <button 
+                            onClick={openLogin}
+                            className="hover:text-green-700 cursor-pointer flex items-center text-xl gap-2"
+                        >
+                            <BsPerson className="w-7 h-7" /> Iniciar sesión
+                        </button>
+                    )
+                )}
+
                 </div>
                 <button
                     className="md:hidden z-101"
