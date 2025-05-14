@@ -146,7 +146,12 @@ export default function Navbar() {
             </nav>
             <Modal isOpen={showForm} onClose={() => setShowForm(false)}>
                 {formType === 'login' ? (
-                    <LoginForm switchToRegister={() => setFormType('register')} />
+                    <LoginForm 
+                        switchToRegister={() => setFormType('register')} 
+                        onLoginSuccess={() => {
+                            setShowForm(false);
+                        }}
+                    />
                 ) : (
                     <RegisterForm switchToLogin={() => setFormType('login')}/>
                 )}

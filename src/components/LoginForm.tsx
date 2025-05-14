@@ -4,9 +4,10 @@ import { useState } from "react";
 
 interface LoginFormProps {
     switchToRegister: () => void;
+    onLoginSuccess: () => void;
 }
 
-export default function LoginForm({switchToRegister}: LoginFormProps) {
+export default function LoginForm({switchToRegister, onLoginSuccess}: LoginFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -26,6 +27,7 @@ export default function LoginForm({switchToRegister}: LoginFormProps) {
 
         if (res.ok) {
             console.log('Logged in');
+            onLoginSuccess();
         } else {
             setError(data.error || 'An error ocurred');
         }

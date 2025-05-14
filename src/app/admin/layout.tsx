@@ -5,16 +5,10 @@ import { MdDashboard } from "react-icons/md";
 import { BsCardChecklist, BsBox2, BsBarChartLineFill } from "react-icons/bs";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-    const router = useRouter();
     const pathname = usePathname();
-
-    const handleLogout = async () => {
-        await fetch('/api/auth/logout');
-        router.push('/');
-    }
 
     const navItems = [
         { href: "/admin", label: "Dashboard", icon: <MdDashboard className="h-5 w-5" /> },
@@ -49,13 +43,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     )))}
                 </div>
                 <div className="border-t-1 border-white w-full flex justify-center my-4 p-4">
-                    <button
+                    <Link
                         className="flex justify-center gap-4 items-center cursor-pointer hover:bg-zinc-800 rounded w-full p-2 font-semibold"
-                        onClick={handleLogout}
+                        href="/"
                     >
                         <RiLogoutBoxLine className="w-5 h-5" />
-                        Logout
-                    </button>
+                        Inicio
+                    </Link>
                 </div>
             </nav>
             <main className="bg-zinc-900 w-full text-white min-h-dvh p-6">
