@@ -6,18 +6,20 @@ import { useState } from "react";
 import Modal from "@/components/Modal";
 import LoginForm from "@/components/LoginForm";
 import RegisterForm from "./RegisterForm";
-import useCurrentUser from "@/hooks/useCurrentUser";
+import { useUser } from "@/contexts/UserContext";
 
 export default function Navbar() {
     const [formType, setFormType] = useState<'login' | 'register'>('login');
     const [showForm, setShowForm] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { user, loading } = useCurrentUser();
+    const { user, loading } = useUser();
 
     const openLogin = () => {
         setShowForm(true);
         setFormType('login');
     }
+
+    if (loading) return <p>Cargando...</p>
 
     return(
         <section className="sticky top-0 z-100">
@@ -61,7 +63,7 @@ export default function Navbar() {
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                                 className="cursor-pointer bg-green-700 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-green-900"
                             >
-                                {user.email[0].toUpperCase()}
+                                {user?.email?.[0]?.toUpperCase() ?? ''}
                             </button>
                             {isMenuOpen && (
                                 <div className="absolute right-0 mt-2 w-48 bg-zinc-800 text-white rounded-lg shadow-md border border-zinc-700 z-50">

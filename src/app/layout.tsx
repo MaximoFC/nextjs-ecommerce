@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
+import { UserProvider } from "@/contexts/UserContext";
 import "./globals.css";
 
 export const outfit = Outfit({
@@ -19,10 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body
-        className={outfit.className}
-      >
-        {children}
+      <body className={outfit.className} >
+        <UserProvider>
+          {children}
+        </UserProvider>
       </body>
     </html>
   );

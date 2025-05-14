@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from "react";
+import { useUser } from "@/contexts/UserContext";
 
 interface LoginFormProps {
     switchToRegister: () => void;
@@ -11,6 +12,7 @@ export default function LoginForm({switchToRegister, onLoginSuccess}: LoginFormP
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const { setUser } = useUser();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,7 +28,11 @@ export default function LoginForm({switchToRegister, onLoginSuccess}: LoginFormP
         const data = await res.json();
 
         if (res.ok) {
-            console.log('Logged in');
+            const data = await fetch('/api/auth/me', {
+                credentials: 'include'
+            });
+            const { user } = await data.json();
+            setUser(user);
             onLoginSuccess();
         } else {
             setError(data.error || 'An error ocurred');
