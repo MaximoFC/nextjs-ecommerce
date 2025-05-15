@@ -7,6 +7,7 @@ import Modal from "@/components/Modal";
 import LoginForm from "@/components/LoginForm";
 import RegisterForm from "./RegisterForm";
 import { useUser } from "@/contexts/UserContext";
+import { HashLoader } from "react-spinners";
 
 export default function Navbar() {
     const [formType, setFormType] = useState<'login' | 'register'>('login');
@@ -18,8 +19,6 @@ export default function Navbar() {
         setShowForm(true);
         setFormType('login');
     }
-
-    if (loading) return <p>Cargando...</p>
 
     return(
         <section className="sticky top-0 z-100">
@@ -56,8 +55,9 @@ export default function Navbar() {
                     </div>
                 </div>
                 <div className="hidden md:flex gap-8">
-                {!loading && (
-                    user ? (
+                {loading ? (
+                    <HashLoader size={20} color="#008236" />
+                ) : user ? (
                         <div className="relative">
                             <button
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -102,7 +102,6 @@ export default function Navbar() {
                         >
                             <BsPerson className="w-7 h-7" /> Iniciar sesión
                         </button>
-                    )
                 )}
 
                 </div>
