@@ -22,7 +22,7 @@ export async function middleware(req: NextRequest) {
             return NextResponse.redirect(new URL('/', req.url));
         }
 
-        if(pathname.includes('/profile') && role !== 'user') {
+        if(pathname.includes('/profile') && role !== 'user' && role !== 'admin') {
             return NextResponse.redirect(new URL('/', req.url));
         }
 

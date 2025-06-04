@@ -8,6 +8,7 @@ import LoginForm from "@/components/LoginForm";
 import RegisterForm from "./RegisterForm";
 import { useUser } from "@/contexts/UserContext";
 import { HashLoader } from "react-spinners";
+import Link from "next/link";
 
 export default function Navbar() {
     const [formType, setFormType] = useState<'login' | 'register'>('login');
@@ -22,7 +23,7 @@ export default function Navbar() {
 
     return(
         <section className="sticky top-0 z-100">
-            <nav className="flex justify-between items-center bg-zinc-800 text-white p-4 relative">
+            <nav className="flex justify-between items-center bg-black/95 backdrop-blur text-white p-4 relative">
                 <div className="flex gap-6 items-center font-semibold">
                     <h2 
                         className={`${bebasneue.className} text-4xl`}
@@ -68,21 +69,21 @@ export default function Navbar() {
                             {isMenuOpen && (
                                 <div className="absolute right-0 mt-2 w-48 bg-zinc-800 text-white rounded-lg shadow-md border border-zinc-700 z-50">
                                     {user.role === 'admin' && (
-                                        <a
+                                        <Link
                                             href="/admin"
                                             className="block px-4 py-2 hover:bg-zinc-700 rounded-lg"
                                             onClick={() => setIsMenuOpen(false)}
                                         >
                                             Panel Admin
-                                        </a>
+                                        </Link>
                                     )}
-                                    <a
+                                    <Link
                                         href="/profile"
                                         className="block px-4 py-2 hover:bg-zinc-700 rounded-lg"
                                         onClick={() => setIsMenuOpen(false)}
                                     >
                                         Perfil
-                                    </a>
+                                    </Link>
                                     <button
                                         onClick={async () => {
                                             await fetch('/api/auth/logout', { method: 'POST' });
