@@ -2,22 +2,16 @@
 
 import { ProductForm } from "../_components/ProductForm";
 import { ProductFormSchema } from "../schemas/product-form-schema";
+import axios from "axios";
 
 export default function NewProductPage() {
     const handleCreateProduct = async (data: ProductFormSchema) => {
         try {
-            const res = await fetch('/api/products', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+            const res = await axios.post('/api/products', data);
 
-            if(!res.ok) {
-                throw new Error('Error al crear el producto');
+            if (res.status !== 200 && res.status !== 201) {
+                throw new Error('Error creating product');
             }
-
             console.log('Producto creado correctamente');
         } catch (error) {
             console.error('Error: ', error);

@@ -6,6 +6,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { HashLoader } from "react-spinners";
 import { useState } from 'react';
 import Image from 'next/image';
+import axios from 'axios';
 
 type ProductFormProps = {
     initialData?: ProductFormSchema;
@@ -25,18 +26,15 @@ export const ProductForm = ({ initialData, onSubmit }: ProductFormProps) => {
         try {
             setUploading(true);
 
-            const res = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData
+            const { data } = await axios.post('/api/upload', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            const data = await res.json();
-
-            if (res.ok && data.url) {
+            if (data?.url) {
                 appendImage({ url: data.url, alt: file.name });
             } else {
                 alert('Error al subir imagen');
-                console.error(data.error);
+                console.error(data.error || 'No se recibió una URL');
             }
         } catch (error) {
             console.error('Upload error: ', error);

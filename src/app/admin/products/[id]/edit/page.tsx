@@ -1,6 +1,7 @@
 import { ProductForm } from "../../_components/ProductForm";
 import { ProductFormSchema } from "../../schemas/product-form-schema";
 import { notFound } from "next/navigation";
+import axios from "axios";
 
 type Props = {
     params: {
@@ -10,13 +11,13 @@ type Props = {
 
 const getProduct = async (id: string): Promise<ProductFormSchema | null> => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/products/${id}`, {
-            cache: 'no-store'
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/products/${id}`, {
+            headers: {
+                'Cache-Control': 'no-store'
+            }
         });
 
-        if( !res.ok ) return null;
-
-        return await res.json();
+        return res.data;
     } catch (error) {
         console.error('Error fetching product: ', error);
         return null;
@@ -33,15 +34,11 @@ export default async function EditProductPage({ params }: Props) {
         'use server';
 
         try {
-            const res = await fetch(`${baseUrl}/api/products/${params.id}`, {
-                method: 'PUT',
+            await axios.put(`${baseUrl}/api/products/${params.id}`, data, {
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+                }
             });
-
-            if (!res.ok) throw new Error('Error updating product');
         } catch (error) {
             console.error('Error updating product: ', error);
             throw error;
