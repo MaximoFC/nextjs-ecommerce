@@ -7,7 +7,7 @@ const UserSchema = new Schema(
         password: { type: String, require: true },
         role: { type: String, enum: ['user', 'admin'], default: 'user' },
         address: {
-            steet: { type: String },
+            street: { type: String },
             city: { type: String },
             zip: { type: String },
             country: { type: String }
