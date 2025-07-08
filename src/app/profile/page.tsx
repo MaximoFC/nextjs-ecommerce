@@ -5,6 +5,7 @@ import { useState } from "react"
 import { BsPerson, BsCardChecklist } from "react-icons/bs";
 import { IoIosNotifications } from "react-icons/io";
 import { MdOutlinePayment } from "react-icons/md";
+import ProfileSection from "@/components/ProfileSection";
 
 export default function ProfilePage() {
     const [activeTab, setActiveTab] = useState('profile');
@@ -45,14 +46,6 @@ export default function ProfilePage() {
                     {activeTab === 'payment' && <PaymentSection />}
                 </div>
             </section>
-        </div>
-    )
-}
-
-function ProfileSection() {
-    return (
-        <div>
-            <h3>Datos del perfil</h3>
         </div>
     )
 }
