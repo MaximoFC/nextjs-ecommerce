@@ -2,9 +2,19 @@
 
 import { createContext, useContext, useEffect, useState } from "react"; 
 
+interface Address {
+    street?: string;
+    city?: string;
+    zip?: string;
+    country?: string;
+}
+
 interface User {
+    _id: string;
+    name: string;
     email: string;
     role: string;
+    address?: Address;
 }
 
 interface UserContextType {
