@@ -7,13 +7,13 @@ import { IoIosNotifications } from "react-icons/io";
 import { MdOutlinePayment } from "react-icons/md";
 
 export default function ProfilePage() {
-    const [activeTab, setActiveTab] = useState('perfil');
+    const [activeTab, setActiveTab] = useState('profile');
 
     const tabs = [
-        { id: 'profile', label: 'Perfil', icon: <BsPerson /> },
-        { id: 'orders', label: 'Pedidos', icon: <BsCardChecklist /> },
-        { id: 'notifications', label: 'Notificaciones', icon: <IoIosNotifications /> },
-        { id: 'payment', label: 'Métodos de pago', icon: <MdOutlinePayment /> },
+        { id: 'profile', label: 'Perfil', icon: BsPerson },
+        { id: 'orders', label: 'Pedidos', icon: BsCardChecklist },
+        { id: 'notifications', label: 'Notificaciones', icon: IoIosNotifications },
+        { id: 'payment', label: 'Métodos de pago', icon: MdOutlinePayment },
     ]
 
     return (
@@ -23,18 +23,18 @@ export default function ProfilePage() {
                 <h2 className="font-bold text-4xl">Mi cuenta</h2>
                 <p className="text-2xl">Gestiona tu información personal y preferencias</p>
                 <div className="bg-black rounded-xl inline-flex flex-row p-1">
-                    {tabs.map(tab => (
+                    {tabs.map(({ id, label, icon: Icon }) => (
                         <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
+                            key={id}
+                            onClick={() => setActiveTab(id)}
                             className={`px-4 py-2 font-semibold rounded-xl cursor-pointer flex items-center gap-2 ${
-                                activeTab === tab.id
+                                activeTab === id
                                     ? 'bg-green-700 text-white'
                                     : 'text-gray-600 hover:text-green-700'
                             }`}
                         >
-                            {tab.icon}
-                            {tab.label}
+                            <Icon />
+                            {label}
                         </button>
                     ))}
                 </div>
