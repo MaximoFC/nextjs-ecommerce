@@ -20,7 +20,7 @@ export default function ProfilePage() {
     return (
         <div>
             <Navbar />
-            <section className="text-white p-4 bg-zinc-800 space-y-4">
+            <section className="text-white p-4 bg-zinc-800 space-y-4 w-full flex flex-col items-center">
                 <h2 className="font-bold text-4xl">Mi cuenta</h2>
                 <p className="text-2xl">Gestiona tu información personal y preferencias</p>
                 <div className="bg-black rounded-xl inline-flex flex-row p-1">

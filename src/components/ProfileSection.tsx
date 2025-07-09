@@ -30,7 +30,7 @@ export default function ProfileSection() {
                 country: user.address?.country || ''
             })
         }
-    }, [user])
+    }, [user]);
 
     async function handleUpdate() {
         try {
@@ -38,25 +38,26 @@ export default function ProfileSection() {
                 name,
                 email,
                 address
-            })
-            setUser(data.user)
-            setSuccess('Datos actualizados correctamente')
-            setError('')
+            });
+            setUser(data.user);
+            setSuccess('Datos actualizados correctamente');
+            setError('');
         } catch (error) {
-            setError('Error actualizando los datos')
-            setSuccess('')
+            setError('Error actualizando los datos');
+            console.error('Error: ', error);
+            setSuccess('');
         }
     }
 
     async function handleDelete() {
-        if (!confirm('¿Querés eliminar tu cuenta? Esta acción no se puede deshacer')) return
+        if (!confirm('¿Querés eliminar tu cuenta? Esta acción no se puede deshacer')) return;
 
         try {
-            await axios.delete('/api/users/delete')
-            setUser(null)
-            window.location.href = '/'
+            await axios.delete('/api/users/delete');
+            setUser(null);
+            window.location.href = '/';
         } catch {
-            alert('Error al eliminar cuenta')
+            alert('Error al eliminar cuenta');
         }
     }
 
@@ -106,19 +107,21 @@ export default function ProfileSection() {
                 placeholder="País"
             />
 
-            <button
-                onClick={handleUpdate}
-                className="cursor-pointer bg-green-700 p-2 rounded-xl text-white font-semibold hover:bg-green-900"
-            >
-                Guardar cambios
-            </button>
+            <div className="w-full flex justify-center gap-10">
+                <button
+                    onClick={handleUpdate}
+                    className="cursor-pointer bg-green-700 p-2 rounded-xl text-white font-semibold hover:bg-green-900"
+                >
+                    Guardar cambios
+                </button>
 
-            <button
-                onClick={handleDelete}
-                className="cursor-pointer bg-red-700 p-2 rounded-xl text-white font-semibold hover:bg-red-800"
-            >
-                Eliminar cuenta
-            </button>
+                <button
+                    onClick={handleDelete}
+                    className="cursor-pointer bg-red-700 p-2 rounded-xl text-white font-semibold hover:bg-red-800"
+                >
+                    Eliminar cuenta
+                </button>
+            </div>
 
             {success && <p className="text-green-500">{success}</p>}
             {error && <p className="text-red-500">{error}</p>}
