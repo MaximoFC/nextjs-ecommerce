@@ -3,12 +3,29 @@
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import { bebasneue } from "@/lib/fonts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
+import axios from "axios";
+
+interface Product {
+    _id: string,
+    title: string,
+    description: string,
+    brand: string,
+    price: number,
+    category: string,
+    sizes: Size[],
+    images: ImageType[],
+    discount: number,
+    isFeatured: boolean,
+    isActive: boolean
+}
 
 export default function Home() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY, currentTarget } = e;
@@ -20,38 +37,20 @@ export default function Home() {
     setMousePos({ x, y });
   }
 
-  const featuredProducts = [
-    {
-      title: "Air Max 90",
-      price: "$190",
-      image: "/images/sneakers.png"
-    },
-    {
-      title: "Air Max 90",
-      price: "$190",
-      image: "/images/sneakers.png"
-    },
-    {
-      title: "Air Max 90",
-      price: "$190",
-      image: "/images/sneakers.png"
-    },
-    {
-      title: "Air Max 90",
-      price: "$190",
-      image: "/images/sneakers.png"
-    },
-    {
-      title: "Air Max 90",
-      price: "$190",
-      image: "/images/sneakers.png"
-    },
-    {
-      title: "Air Max 90",
-      price: "$190",
-      image: "/images/sneakers.png"
-    }
-  ]
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get('/api/products');
+        setProducts(res.data);
+      } catch (error) {
+        console.error('Error fetching products: ', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <main>
@@ -89,12 +88,12 @@ export default function Home() {
         <h2 className="text-white text-3xl font-semibold py-6">Productos destacados</h2>
         <p className="text-white text-xl">Las zapatillas más populares de nuestra colección</p>
         <div className="w-full pt-8 gap-8 grid grid-cols-1 md:grid-cols-3 justify-items-center">
-          {featuredProducts.map((product, index) => (
+          {products.map((product) => (
             <ProductCard 
-              key={index}
+              key={product._id}
               title={product.title}
-              price={product.price}
-              image={product.image}
+              price={`$${product.price}`}
+              images={product.images}
             />
           ))}
         </div>
