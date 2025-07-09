@@ -25,9 +25,14 @@ export default function Navbar() {
         <section className="sticky top-0 z-100">
             <nav className="flex justify-between items-center bg-black/95 backdrop-blur text-white p-4 relative">
                 <div className="flex gap-6 items-center font-semibold">
-                    <h2 
-                        className={`${bebasneue.className} text-4xl`}
-                    >URBAN<span className="text-green-700">KICKS</span></h2>
+                    <Link href="/">
+                        <h2 
+                            className={`${bebasneue.className} text-4xl`}
+                        >
+                            URBAN
+                            <span className="text-green-700">KICKS</span>
+                        </h2>
+                    </Link>
                     <div className="hidden md:flex gap-6">
                         <a 
                             href=""
