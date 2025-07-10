@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
 import axios from "axios";
+import { HashLoader } from "react-spinners";
 
 interface Product {
     _id: string,
@@ -88,14 +89,24 @@ export default function Home() {
         <h2 className="text-white text-3xl font-semibold py-6">Productos destacados</h2>
         <p className="text-white text-xl">Las zapatillas más populares de nuestra colección</p>
         <div className="w-full pt-8 gap-8 grid grid-cols-1 md:grid-cols-3 justify-items-center">
-          {products.map((product) => (
-            <ProductCard 
-              key={product._id}
-              title={product.title}
-              price={`$${product.price}`}
-              images={product.images}
-            />
-          ))}
+          {loading ? (
+            <div className="flex justify-center items-center h-96">
+              <HashLoader size={80} color="#008236" />
+            </div>
+          ) : (
+            <>
+              {products
+                .filter(product => product.isFeatured)
+                .map((product) => (
+                <ProductCard 
+                  key={product._id}
+                  title={product.title}
+                  price={`$${product.price}`}
+                  images={product.images}
+                />
+              ))}
+            </>
+          )}
         </div>
       </section>
       <Footer />

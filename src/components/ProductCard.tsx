@@ -45,7 +45,7 @@ export default function ProductCard({ title, price, images }: ProductCardProps) 
             </div>
 
             <div className="border-1 border-zinc-500 rounded-b-lg p-4">
-                <h3 className="text-black font-semibold text-lg">{title}</h3>
+                <h3 className="text-white font-semibold text-lg">{title}</h3>
                 <p className="text-green-700 font-semibold text-lg">{price}</p>
                 <button className="mt-2 cursor-pointer bg-green-700 p-2 rounded-xl w-full text-white font-semibold hover:bg-green-900 flex justify-center items-center">
                     <BsCart className="w-5 h-5 mr-4"/>
